@@ -1,3 +1,17 @@
-export const countContacts = async () => {};
+import { readContacts } from '../utils/readContacts.js';
 
-console.log(await countContacts());
+export const countContacts = async () => {
+  try {
+    const data = await readContacts();
+    if (!Array.isArray(data)) {
+      throw new Error('No contacts found.');
+    }
+    const totalContacts = data.length;
+    return totalContacts;
+  } catch (error) {
+    console.log('Error:', error);
+    return 0;
+  }
+};
+
+console.log(`Found <${await countContacts()}> contacts at database.`);
